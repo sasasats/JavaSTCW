@@ -29,7 +29,7 @@
                 <version>3.6.0</version>
 
                 <configuration>
-                    <configLocation>src/test/resources/suites/checkstyle.xml</configLocation>
+                    <configLocation>checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
                     <failOnViolation>true</failOnViolation>
