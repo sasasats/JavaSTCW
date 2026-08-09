@@ -26,9 +26,7 @@ public class TestNG {
         boolean actual = true;
 
         SoftAssert softAssert = new SoftAssert();
-//        softAssert.assertFalse(actual, "%s is not false".formatted(actual));
         softAssert.assertTrue(actual, "%s is not true".formatted(actual));
-//        softAssert.assertFalse(actual, "%s is not false".formatted(actual));
         softAssert.assertAll();
     }
 

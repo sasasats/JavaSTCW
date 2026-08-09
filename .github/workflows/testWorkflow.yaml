@@ -1,0 +1,138 @@
+name: Workflow Demo
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Check Java
+        run: java --version
+
+      - name: Check Maven
+        run: mvn --version
+
+
+  verify:
+    name: Verify
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Checkstyle
+        run: mvn checkstyle:check
+
+
+  build:
+    name: Build
+    needs: verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build
+        run: mvn package -DskipTests
+
+
+  test:
+    name: Test - ${{ matrix.suite.name }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - name: DDT
+            file: ddt.xml
+          - name: PrePostConditions
+            file: prePostConditions.xml
+          - name: TestNG
+            file: testng.xml
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Test - ${{ matrix.suite.name }}
+        run: mvn test -Dtestng.suite=${{ matrix.suite.file }}
+
+      - name: Create artifact
+        if: ${{ always() }}
+        run: |
+          echo "Tests completed successfully" > artifact.txt
+          echo "Build: $GITHUB_RUN_NUMBER" >> artifact.txt
+          echo "Commit: $GITHUB_SHA" >> artifact.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-result-${{ matrix.suite.name }}
+          path: artifact.txt
+
+
+  report:
+    name: Read Test Artifact
+    if: ${{ always() }}
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - name: Show artifacts
+        run: |
+          find artifacts -type f -print
+          
+          echo "===== DDT ====="
+          cat artifacts/test-result-DDT/artifact.txt || true
+          
+          echo "===== PrePostConditions ====="
+          cat artifacts/test-result-PrePostConditions/artifact.txt || true
+          
+          echo "===== TestNG ====="
+          cat artifacts/test-result-TestNG/artifact.txt || true

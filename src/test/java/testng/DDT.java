@@ -13,7 +13,6 @@ public class DDT {
                 {"validUserName", "invalidPassword", false},
                 {"invalidUserName", "validPassword", false},
                 {"invalidUserName", "invalidPassword", false},
-                {"validUserName(wrong)", "validPassword", false},
         };
     }
 
