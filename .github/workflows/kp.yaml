@@ -17,10 +17,9 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-      - run: mvn build
+      - run: mvn compile
 
   test:
-    if: ${{ always() }}
     needs: build
     runs-on: ubuntu-latest
 
