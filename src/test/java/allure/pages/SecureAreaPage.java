@@ -3,9 +3,8 @@ package allure.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
 
-import java.time.Duration;
+import static allure.utils.WaitUtils.waitUntil;
 
 public class SecureAreaPage {
     private final WebDriver driver;
@@ -15,15 +14,12 @@ public class SecureAreaPage {
     }
 
     public boolean isDisplayed() {
-        WebElement header = driver.findElement(By.xpath("//body[.//*[contains(.,'Secure Area')]]"));
-
-        return new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(5))
-                .pollingEvery(Duration.ofMillis(250))
-                .until(driver1 -> header.isDisplayed());
+        return waitUntil(driver, d ->
+                d.findElement(By.xpath("//body[.//*[contains(.,'Secure Area')]]")).isDisplayed());
     }
 
     public String getDataAlertText() {
-        return driver.findElement(By.xpath("//*[@data-alert]")).getText();
+        WebElement dataAlert = waitUntil(driver, d -> d.findElement(By.xpath("//*[@data-alert]")));
+        return dataAlert.getText();
     }
 }

@@ -2,10 +2,8 @@ package allure.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.FluentWait;
 
-import java.time.Duration;
+import static allure.utils.WaitUtils.waitUntil;
 
 public class MainPage {
     private final WebDriver driver;
@@ -15,13 +13,8 @@ public class MainPage {
     }
 
     public boolean isDisplayed() {
-        WebElement header = driver.findElement(
-                By.xpath("//body[.//*[text()='Welcome to the-internet']]"));
-
-        return new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(5))
-                .pollingEvery(Duration.ofMillis(250))
-                .until(driver1 -> header.isDisplayed());
+        return waitUntil(driver, d ->
+                d.findElement(By.xpath("//body[.//*[text()='Welcome to the-internet']]")).isDisplayed());
     }
 
     public void goToPage(String linkName) {
