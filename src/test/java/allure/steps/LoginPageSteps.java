@@ -18,7 +18,7 @@ public class LoginPageSteps {
         Assert.assertTrue(loginPage.isDisplayed());
     }
 
-    @Step("Login with '{username}' username")
+    @Step("Login with credentials")
     public void login(String username, String password) {
         loginPage.fillUsername(username);
         loginPage.fillPassword(password);
