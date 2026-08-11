@@ -75,7 +75,7 @@ public class AllureTests {
 
         LoginPageSteps loginPageSteps = new LoginPageSteps(driver);
         loginPageSteps.checkIsDisplayed();
-        loginPageSteps.login("tomsmith", "SuperSecretPassword!");
+        loginPageSteps.login(System.getenv("TEST_USERNAME"), System.getenv("TEST_PASSWORD"));
 
         SecureAreaPageSteps secureAreaPageSteps = new SecureAreaPageSteps(driver);
         secureAreaPageSteps.checkIsDisplayed();
