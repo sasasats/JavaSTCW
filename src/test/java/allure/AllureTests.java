@@ -29,8 +29,10 @@ public class AllureTests {
     @BeforeMethod
     public void beforeMethod() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
+        options.addArguments("--window-size=1920,1080");
         options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
 
         Allure.step("Go to %s url".formatted(BASE_URL), step -> {
