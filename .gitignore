@@ -40,3 +40,5 @@ build/
 
 allure-results/**
 allure-report
+
+log/**

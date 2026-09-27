@@ -128,5 +128,13 @@
             <version>${aspectj.version}</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/com.browserstack/browserstack-java-sdk -->
+        <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>browserstack-java-sdk</artifactId>
+            <version>1.67.7</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 </project>
