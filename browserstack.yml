@@ -1,0 +1,25 @@
+userName: ${BROWSERSTACK_USER_NAME}
+accessKey: ${BROWSERSTACK_ACCESS_KEY}
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: Chrome
+    browserVersion: latest
+  - deviceName: Google Pixel 7
+    osVersion: 13.0
+    browserName: chrome
+    deviceOrientation: portrait
+  - deviceName: iPhone 16e
+    osVersion: 18
+    browserName: safari
+    deviceOrientation: portrait
+browserstackLocal: false
+buildName: bstack-demo
+projectName: BrowserStack Sample
+CUSTOM_TAG_1: "You can set a custom Build Tag here"
+# Use CUSTOM_TAG_<N> and set more build tags as you need.
+debug: true
+networkLogs: true
+consoleLogs: info
+selfHeal: false
+aiAuthoring: false
